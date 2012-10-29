@@ -22,7 +22,7 @@ def main():
     for idx,fullpath in enumerate(fullpaths):
         print "process file #%d (total %d)" % (idx, total)
         for record in WARCFile(fullpath):
-            f.write(record.trec_id, record.target_uri)
+            f.write("%s,%s\n" % (record.trec_id, record.target_uri))
 
     f.close()
     
