@@ -10,10 +10,9 @@ class WARCRecord:
         self.content_length = -1
         self.date = ''
         self.content = ''
-        
         # used in ClueWeb09
         self.trec_id = ''
-        self.target_url = ''
+        self.target_uri = ''
 
 class WARCFile:
     def __init__(self, filename, skip_content=False):
@@ -73,8 +72,8 @@ class WARCFile:
             key = line[:colon_pos].strip()
             value = line[colon_pos+1:].strip()
             
-            if key == "WARC-Target-URL":
-                record.target_url = value
+            if key == "WARC-Target-URI":
+                record.target_uri = value
             elif key == "WARC-TREC-ID":
                 record.trec_id = value
             elif key == "Content-Length":
@@ -94,18 +93,20 @@ class WARCFile:
         
         return record
 
-
 def main():
     if len(sys.argv) < 2:
-        print "pywarc <warc-file>"
+        print "Usage: pywarc <warc-file>"
         sys.exit()
     
     filename = sys.argv[1]
     
-    warcfile = WARCFile(filename)
+    warcfile = WARCFile(filename, skip_content=True)
     
     for record in warcfile:
         print "find one record", record
+        print record.trec_id, record.target_uri
+        
+        
 
     warcfile.close()
 
